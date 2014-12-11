@@ -1,64 +1,81 @@
 #include<stdio.h>
-#include<map>
-#include<string.h>
-using namespace std;
+#include<vector>
+#include<string>
+#include<iostream>
 
-struct cmp_str
-{
-   bool operator()(char const *a, char const *b)
-   {
-      return std::strcmp(a, b) < 0;
-   }
-};
+using namespace std;
 int main()
 {
 	int t;
 	scanf("%d",&t);
-	for(int l=0;l<t;l++)
+	for(int i=0;i<t;i++)
 	{
-		map<char *, int,cmp_str > m;
-		map<char *, int,cmp_str > ::iterator it;
-		for(int i=0;i<16;i++)
+		vector<string> v;
+		int scores[100];
+		int nteams=0;
+		for(int j=0;j<16;j++)
 		{
-			char t1[15],t2[15];
-			int g1,g2;
-			scanf("%s %s",t1,t2);
-			scanf("%d %d",&g1,&g2);
+			string a,b;
+			int a1,b1;
+			int flag1=0,flag2=0;
+			cin>>a;
+			cin>>b;
+			scanf("%d %d",&a1,&b1);
+			//printf("Read : %s %s %d %d",a,b,a1,b1);
+			
+			//Check if a exist
+			for(int k=0;k<(int)v.size();k++)
+			{
+				if(v[k].compare(a)==0)
+				{
+					flag1=1;
+					if(a1<b1)
+						scores[k]=0;
+				}
 		
-			
-			if( m.find(t1) == m.end())
-			{ 
-				if(g1>g2)
-					m[t1]=1;
-				else
-					m[t1]=0;
 			}
-			else
+			
+			if(flag1==0)
 			{
-				if(g1<g2)
-					m[t1]=0;
-			}
-			
-			
-			if( m.find(t2) == m.end())
-			{ 
-				if(g1<g2)
-					m[t2]=0;
+				//Team one doesnt exist
+				v.push_back(a);
+				if(a1>b1)
+					scores[nteams]=1;
 				else
-					m[t2]=1;	
-			}
-			else
-			{
-				if(g1>g2)
-					m[t2]=0;
+					scores[nteams]=0;
+				nteams++;
 			}
 			
+			//Check if b exist
+			for(int k=0;k<(int)v.size();k++)
+			{
+				if(v[k].compare(b)==0)
+				{
+					flag2=1;
+					if(a1>b1)
+						scores[k]=0;
+				}
+		
+			}
+			
+			if(flag2==0)
+			{
+				//Team one doesnt exist
+				v.push_back(b);
+				if(a1<b1)
+					scores[nteams]=1;
+				else
+					scores[nteams]=0;
+				nteams++;
+			}
 		}
-		for( it = m.begin() ; it != m.end() ; it++)
+		
+		for(int k=0;k<nteams;k++)
 		{
-			printf("\n%s %d",it->first,it->second);
+			if(scores[k]==1)
+				cout<<v[k]<<endl;
 		}
-		
+		//printf("\n");
 	}
-		return 0;
-}			
+	return 0;
+}

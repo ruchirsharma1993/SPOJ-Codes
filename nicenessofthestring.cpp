@@ -1,19 +1,42 @@
 #include<stdio.h>
 #include<string>
-#include<cstring>
+#include<vector>
 #include<iostream>
 using namespace std;
 int main()
 {
-	int t,i;
-	cin>>t;	
-	for(i=0;i<t;i++)
+	int t;
+	scanf("%d",&t);
+	for(int i=0;i<t;i++)
 	{
-		string s="";
-		char c[500]; 
-		getline(cin,s);
-		strcpy(c, s.c_str());
-		printf("%s",c);
-
+		char s[1005];
+		vector<char *>v;
+		int count=0;
+		cin.getline(s,1004);
+		int count=0;
+		
+		char *tok=strtok(s," ,\t");
+		while(tok!=NULL)
+		{
+			int flag=0;
+			for(int k=0;k<v.size();k++)
+			{
+				if(strcmp(v[k],tok)==0)
+				{
+					flag=1;
+					break;
+				}
+			}
+			if(flag==0)
+			{
+				count++;
+				v.push_back(tok);
+			}
+			
+			tok = strtok(s,NULL);
+		}
+		printf("%d",count);
+		printf("\n");
 	}
+	return 0;
 }
